@@ -4,8 +4,9 @@
   "private": true,
   "description": "多画面网络直播墙，部署在 Cloudflare Pages",
   "scripts": {
-    "dev": "wrangler pages dev . --port 8788",
-    "deploy": "wrangler pages deploy . --project-name qflive"
+    "build": "node scripts/build.mjs",
+    "dev": "npm run build && wrangler pages dev dist --port 8788",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name qflive --branch main --commit-dirty=true"
   },
   "devDependencies": {
     "wrangler": "^4.0.0"

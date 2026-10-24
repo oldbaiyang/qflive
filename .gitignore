@@ -1,6 +1,7 @@
 node_modules/
 .wrangler/
 .tmp-test/
+dist/
 twfjnt5c
 .workbuddy-ai/
 .DS_Store

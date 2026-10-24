@@ -2,6 +2,8 @@
 
 在一个屏幕里同时看多路网络直播。粘贴地址即可播放，自动识别协议，跨域被拦时自动降级走代理。
 
+**线上地址：https://qflive.pages.dev**
+
 ## 功能
 
 - 支持 **HLS(.m3u8)**、**HTTP-FLV(.flv)**、**MPEG-TS(.ts)**、**DASH(.mpd)**、**MP4**
@@ -19,6 +21,7 @@ assets/styles.css       样式
 assets/app.js           界面、状态、直连→代理降级
 assets/player.js        播放内核封装（协议识别 + 多内核调度）
 functions/api/proxy.js  Cloudflare Pages Function：CORS 代理 + m3u8 重写
+scripts/build.mjs       生成 dist/（只打包需要上传的文件）
 vendor/                 hls.js / mpegts.js / dash.js（本地化，不走 CDN）
 _routes.json            只让 /api/* 走 Function，静态资源不消耗函数额度
 ```
@@ -39,22 +42,23 @@ npm run dev          # http://localhost:8788
 
 ## 部署到 Cloudflare
 
-**方式 A：Git 自动部署（推荐）**
+Pages 项目 `qflive` 已创建，生产分支 `main`，地址 https://qflive.pages.dev 。
 
-1. 把本目录推到 GitHub 仓库
-2. Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git
-3. 选择仓库，构建命令留空，输出目录填 `/`
-4. 保存并部署，之后每次 push 自动上线
-
-**方式 B：命令行手动部署**
+**方式 A：命令行手动部署**
 
 ```bash
-npx wrangler login
-npm run deploy
+npx wrangler login     # 首次需要授权
+npm run deploy         # build + 上传 dist/
 ```
 
-首次会创建项目 `qflive`，完成后拿到 `https://qflive.pages.dev`。绑定自有域名在
-Pages 项目的 Custom domains 里加。
+**方式 B：Git 自动部署（推荐，push 即上线）**
+
+1. 仓库推到 GitHub
+2. Cloudflare Dashboard → Workers & Pages → `qflive` → Settings → Build
+3. 连接 Git 仓库，**构建命令**填 `npm run build`，**输出目录**填 `dist`
+4. 之后每次 push 到 `main` 自动部署
+
+绑定自有域名在 Pages 项目的 Custom domains 里加。
 
 ## 代理是怎么工作的
 
