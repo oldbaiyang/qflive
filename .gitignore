@@ -1,0 +1,7 @@
+node_modules/
+.wrangler/
+.tmp-test/
+twfjnt5c
+.workbuddy-ai/
+.DS_Store
+*.log

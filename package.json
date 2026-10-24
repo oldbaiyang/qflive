@@ -1,0 +1,13 @@
+{
+  "name": "qflive",
+  "version": "0.1.0",
+  "private": true,
+  "description": "多画面网络直播墙，部署在 Cloudflare Pages",
+  "scripts": {
+    "dev": "wrangler pages dev . --port 8788",
+    "deploy": "wrangler pages deploy . --project-name qflive"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
