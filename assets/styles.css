@@ -80,7 +80,7 @@ button, input, textarea { font-family: inherit; font-size: inherit; }
 }
 
 .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
-.brand-text h1 { margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.3px; }
+.brand-text h1 { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0; }
 .brand-text span { font-size: 11px; color: var(--text-3); }
 
 .layouts {
