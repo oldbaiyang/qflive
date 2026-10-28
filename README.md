@@ -2,7 +2,9 @@
 
 在一个屏幕里同时看多路网络直播。粘贴地址即可播放，自动识别协议，跨域被拦时自动降级走代理。
 
-**线上地址：https://qflive.pages.dev** ｜ **仓库：https://github.com/oldbaiyang/qflive**
+**线上地址：https://qifeilive.com**（`www.qifeilive.com` 同样可用）
+**备用地址：https://qflive.pages.dev**
+**仓库：https://github.com/oldbaiyang/qflive**
 
 ## 功能
 
@@ -54,11 +56,15 @@ npm run deploy         # build + 上传 dist/
 **方式 B：GitHub Actions 自动部署（push 即上线）**
 
 Pages 项目 `qflive` 是**直接上传（Direct Upload）**类型，Cloudflare 不允许事后把它改成 Git 源，
-所以自动部署走 GitHub Actions：`.github/workflows/deploy.yml` 已经在仓库里，只差两个 secret。
+所以自动部署走 GitHub Actions：`.github/workflows/deploy.yml` 已经在仓库里，secret 也已配好
+（`CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`），**push 到 `main` 即自动上线**。
+
+需要重建时：
 
 1. 建 API Token：https://dash.cloudflare.com/profile/api-tokens → Create Token →
-   模板选 **Edit Cloudflare Workers**，或自定义给 **Account → Cloudflare Pages → Edit**
-2. 把 token 和 Account ID 存进仓库 secret（Account ID 在 Dashboard 右下角）：
+   权限给 **Account → Cloudflare Pages → Edit**、**Account → Account Settings → Read**、
+   **Zone → DNS → Edit**、**Zone → Zone → Read**
+2. 把 token 和 Account ID 存进仓库 secret：
 
 ```bash
 gh secret set CLOUDFLARE_API_TOKEN --repo oldbaiyang/qflive
@@ -66,11 +72,21 @@ gh secret set CLOUDFLARE_ACCOUNT_ID --repo oldbaiyang/qflive
 ```
 
 或者在 https://github.com/oldbaiyang/qflive/settings/secrets/actions 里手动加。
-
-配好之后每次 push 到 `main` 自动 build + 部署。**没配 secret 时 workflow 会跳过并给出提示，不会报红。**
+**没配 secret 时 workflow 会跳过并给出提示，不会报红。**
 
 > 如果更想用 Cloudflare 官方的「连仓库自动构建」，只能在 Dashboard 里**新建一个**从 Git 导入的
 > Pages 项目（比如叫 `qflive-git`），老项目没法改。
+
+## 自定义域名
+
+`qifeilive.com` 已绑定，DNS 在 Cloudflare 托管：
+
+| 类型 | 名称 | 目标 | 代理 |
+|---|---|---|---|
+| CNAME | `qifeilive.com` | `qflive.pages.dev` | ✅ |
+| CNAME | `www.qifeilive.com` | `qflive.pages.dev` | ✅ |
+
+裸域用的是 Cloudflare 的 CNAME 展平（flattening），证书由 Pages 自动签发。
 
 绑定自有域名在 Pages 项目的 Custom domains 里加。
 
